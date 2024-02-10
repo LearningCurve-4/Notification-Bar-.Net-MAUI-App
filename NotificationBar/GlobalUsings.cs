@@ -1,0 +1,10 @@
+﻿global using NotificationBar.Helpers;
+global using NotificationBar.Services;
+global using NotificationBar.Services.PlatformsCompilation;
+global using NotificationBar.Themes;
+global using NotificationBar.ViewModels;
+global using NotificationBar.Views.Pages;
+global using System.Collections.ObjectModel;
+global using System.ComponentModel;
+global using System.Globalization;
+global using System.Runtime.CompilerServices;

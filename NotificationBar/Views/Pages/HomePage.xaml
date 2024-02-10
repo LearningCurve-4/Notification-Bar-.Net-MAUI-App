@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NotificationBar.Views.Pages.HomePage"
+    xmlns:c="clr-namespace:NotificationBar.Helpers.Converters"
+    xmlns:rv="clr-namespace:NotificationBar.Views.ReuseableViews"
+    xmlns:vm="clr-namespace:NotificationBar.ViewModels"
+    x:DataType="vm:HomeViewModel"
+    IsEnabled="{Binding IsNotBusy}">
+
+    <ContentPage.Resources>
+        <c:ToggleConverter x:Key="Toggle" />
+        <c:ToggleMVConverter x:Key="ToggleMV" />
+    </ContentPage.Resources>
+
+    <Grid
+        RowDefinitions="50,*,50"
+        ColumnDefinitions="*">
+
+        <!--Header-->
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            RowDefinitions="*"
+            ColumnDefinitions="35,*"
+            ColumnSpacing="10"
+            Padding="10,0"
+            BackgroundColor="{DynamicResource HeaderBarFillColor}">
+
+            <Image  
+                Grid.Row="0"
+                Grid.Column="0"
+                Source="{DynamicResource AboutApp}">
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToPageCommand, Mode=OneTime}" 
+                        CommandParameter="AboutAppPage" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Label 
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Home"
+                TextColor="{DynamicResource HeaderBarFillTextColor}"
+                FontSize="22" />
+
+            <rv:BusyIndicatorView
+                Grid.Row="0" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" />
+
+            <rv:NotificationBarView
+                Grid.Row="0" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2" />
+        </Grid>
+
+        <!--Body-->
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            RowDefinitions="160,*" 
+            ColumnDefinitions="*"
+            RowSpacing="10"
+            Padding="5">
+
+            <Border 
+                Grid.Row="0" 
+                Grid.Column="0"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="{DynamicResource ScreenColor}">
+
+                <VerticalStackLayout 
+                    CompressedLayout.IsHeadless="False">
+
+                    <Grid 
+                        RowDefinitions="50"
+                        ColumnDefinitions="40,*,80">
+
+                        <Image 
+                            Grid.Row="0" 
+                            Grid.Column="0"
+                            Source="{DynamicResource Sound}"
+                            HeightRequest="25"
+                            WidthRequest="25" />
+
+                        <Label 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            Text="Allow notification sound."
+                            TextColor="{DynamicResource ScreenTextColor}" />
+
+                        <Switch 
+                            Grid.Row="0" 
+                            Grid.Column="2"
+                            IsToggled="{Binding PlayNotifSound}" />
+                    </Grid>
+
+                    <BoxView 
+                        Margin="5,0"
+                        BackgroundColor="{DynamicResource BorderColor}" />
+
+                    <Grid 
+                        RowDefinitions="50"
+                        ColumnDefinitions="40,*,80">
+
+                        <Image 
+                            Grid.Row="0" 
+                            Grid.Column="0"
+                            Source="{DynamicResource Audio}"
+                            HeightRequest="25"
+                            WidthRequest="25" />
+
+                        <Label 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            Text="Select notification audio."
+                            TextColor="{DynamicResource ScreenTextColor}" />
+
+                        <Picker 
+                            Grid.Row="0" 
+                            Grid.Column="2"
+                            TextColor="{DynamicResource ScreenTextColor}"
+                            SelectedItem="{Binding NotifAudioFile, Mode=TwoWay}" 
+                            IsEnabled="{Binding PlayNotifSound}">
+
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>chimes</x:String>
+                                    <x:String>ding</x:String>
+                                    <x:String>notify</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
+
+                    <BoxView 
+                        Margin="5,0"
+                        BackgroundColor="{DynamicResource BorderColor}" />
+
+                    <Grid 
+                        RowDefinitions="50"
+                        ColumnDefinitions="40,*,80">
+
+                        <Image 
+                            Grid.Row="0" 
+                            Grid.Column="0"
+                            Source="{DynamicResource Duration}"
+                            HeightRequest="25"
+                            WidthRequest="25" />
+
+                        <Label 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            TextColor="{DynamicResource ScreenTextColor}">
+                            
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Select notification display duration.&#10;" />
+                                    <Span Text="Duration indicates here is in seconds." FontSize="11" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Picker 
+                            Grid.Row="0" 
+                            Grid.Column="2"
+                            TextColor="{DynamicResource ScreenTextColor}"
+                            SelectedItem="{Binding NotifDisplayDuration, Mode=TwoWay}" 
+                            IsEnabled="{Binding PlayNotifSound}">
+
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                    <x:String>4</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                WidthRequest="180"
+                HeightRequest="180"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="{DynamicResource FillColor}">
+
+                <Grid
+                    RowDefinitions="*,60"
+                    ColumnDefinitions="*">
+
+                    <Image  
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="100"
+                        WidthRequest="100">
+
+
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource ToggleMV}" ConverterParameter="ServiceBell_ServiceBellStop_S">
+                                <Binding Path="AppThemes" />
+                                <Binding Path="PlayNotifSound" />
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
+
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="{Binding PlayNotifSound, Converter={StaticResource Toggle}, ConverterParameter='Click to disable Notification_Click to enable Notification_T'}"
+                        TextColor="{DynamicResource FillTextColor}"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center" />
+                </Grid>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding EnableDisableNotificationCommand, Mode=OneTime}" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+
+        <!--Footer-->
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0"
+            RowDefinitions="*,15"
+            ColumnDefinitions="*,*,*,*,*"
+            ColumnSpacing="10"
+            BackgroundColor="{DynamicResource FooterBarFillColor}">
+
+            <!--Dark Theme-->
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                StrokeShape="RoundRectangle 17"
+                WidthRequest="34"
+                HeightRequest="34"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="#333333">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Black" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Black"
+                TextColor="{DynamicResource FooterBarFillTextColor}"
+                FontSize="10"
+                HorizontalTextAlignment="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Black" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!--Light Theme-->
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                StrokeShape="RoundRectangle 17"
+                WidthRequest="34"
+                HeightRequest="34"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="White">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="White" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="White"
+                TextColor="{DynamicResource FooterBarFillTextColor}"
+                FontSize="10"
+                HorizontalTextAlignment="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="White" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!--Default Theme-->
+            <Border
+                Grid.Row="0"
+                Grid.Column="2"
+                StrokeShape="RoundRectangle 17"
+                WidthRequest="34"
+                HeightRequest="34"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="#2196F3">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Default" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="Default"
+                TextColor="{DynamicResource FooterBarFillTextColor}"
+                FontSize="10"
+                HorizontalTextAlignment="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Default" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!--Orange Theme-->
+            <Border
+                Grid.Row="0"
+                Grid.Column="3"
+                StrokeShape="RoundRectangle 17"
+                WidthRequest="34"
+                HeightRequest="34"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="#FF8C00">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Orange" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="3"
+                Text="Orange"
+                TextColor="{DynamicResource FooterBarFillTextColor}"
+                FontSize="10"
+                HorizontalTextAlignment="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Orange" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!--Purple Theme-->
+            <Border
+                Grid.Row="0"
+                Grid.Column="4"
+                StrokeShape="RoundRectangle 17"
+                WidthRequest="34"
+                HeightRequest="34"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="#7030A0">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Purple" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="4"
+                Text="Purple"
+                TextColor="{DynamicResource FooterBarFillTextColor}"
+                FontSize="10"
+                HorizontalTextAlignment="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding LoadThemeCommand, Mode=OneTime}" 
+                        CommandParameter="Purple" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </Grid>
+</ContentPage>
